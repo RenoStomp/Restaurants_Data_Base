@@ -2,13 +2,17 @@
 {
     public class Ingredient
     {
-        private string Name { get; set; }
-        private double CostPerGram { get; set; }
+        public string Name { get; set; }
+        public double CostPerGram { get; set; }
 
         public Ingredient(string name, double costPerGram)
         {
             Name = name;
             CostPerGram = costPerGram;
+        }
+        public void Print()
+        {
+            Console.WriteLine($"{Name} - {CostPerGram}");
         }
     }
 }
