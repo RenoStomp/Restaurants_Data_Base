@@ -14,7 +14,7 @@
             Meals = new Dictionary<Meal, double>();
             foreach(Meal meal in meals)
             {
-                double mealPrice = meal.MealPrice * 1.2;
+                double mealPrice = Math.Round(meal.MealPrice * 1.2, 2);
                 Meals.Add(meal, mealPrice);
             }
         }
@@ -28,7 +28,7 @@
             foreach(var meal in Meals)
             {
                 meal.Key.ShowIngredientsPrices();
-                Console.WriteLine($"Sell price - {meal.Value} dollars");
+                Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
                 Console.WriteLine("-----------------------------");
 
             }
