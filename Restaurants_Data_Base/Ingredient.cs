@@ -10,9 +10,15 @@
             Name = name;
             CostPerGram = costPerGram;
         }
+        public double weigth { get; set; }
+
         public void Print()
         {
-            Console.WriteLine($"{Name} - {CostPerGram}");
+            Console.WriteLine($"{Name} - {weigth} gr");
         }
+
+
+
+
     }
 }

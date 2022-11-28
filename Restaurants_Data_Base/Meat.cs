@@ -5,5 +5,8 @@
         public Meat(string name, double CostPerGram) : base(name, CostPerGram)
         {
         }
+
+
+
     }
 }
