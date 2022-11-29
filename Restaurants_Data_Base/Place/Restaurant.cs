@@ -1,4 +1,4 @@
-﻿namespace Restaurants_Data_Base
+﻿namespace Restaurants_Data_Base.Place
 {
     public class Restaurant
     {
@@ -15,14 +15,14 @@
             Name = name;
             ChefsName = chefsName;
             Meals = new Dictionary<Meal, double>();
-            foreach(Meal meal in meals)
+            foreach (Meal meal in meals)
             {
                 double mealPrice = Math.Round(meal.MealPrice * 1.2, 2);
                 Meals.Add(meal, mealPrice);
             }
         }
         /// <summary>
-        /// This method shows all menu of the restaurant, every ingredient in it, weight, real price and sell price
+        /// Shows all menu of the restaurant, every ingredient in it, weight, real price and sell price
         /// </summary>
         public void PrintInfo()
         {
@@ -32,7 +32,7 @@
 
             Console.WriteLine("Menu:");
             Console.WriteLine();
-            foreach(var meal in Meals)
+            foreach (var meal in Meals)
             {
                 meal.Key.ShowIngredientsAndPrice();
                 Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
@@ -40,6 +40,9 @@
 
             }
         }
+
+
+
 
     }
 }

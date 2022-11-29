@@ -1,4 +1,4 @@
-﻿namespace Restaurants_Data_Base
+﻿namespace Restaurants_Data_Base.Ingredients
 {
     public class Ingredient
     {
@@ -11,29 +11,25 @@
             Name = name;
             CostPerGram = costPerGram;
         }
-
+        /// <summary>
+        /// Presenting total sum of that ingredient in all meals in all restaurants for each meal
+        /// </summary>
         public void ShowTotalUsed()
         {
             double totalWeight = Math.Round(TotalUsing / 1000, 3);
             Console.Write($"Total weight of ");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(Name);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
             Console.Write($" in all meals in every restaurant is ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(totalWeight);
-            Console.ForegroundColor= ConsoleColor.White;
+            Console.ResetColor();
             Console.WriteLine($" kilos");
         }
 
 
 
-        //public void Print()
-        //{
-        //    Console.WriteLine($"{Name} - {weigth} gr");
-        //}
 
-
-            
     }
 }

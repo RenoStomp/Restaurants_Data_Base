@@ -1,4 +1,4 @@
-﻿namespace Restaurants_Data_Base
+﻿namespace Restaurants_Data_Base.Ingredients
 {
     public class Spice : Ingredient
     {
