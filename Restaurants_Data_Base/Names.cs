@@ -1,20 +1,21 @@
 ﻿namespace Restaurants_Data_Base
 {
-    public enum Names
+    public class Names
     {
-        Banana,
-        Apple,
-        Grape,
-        Beef,
-        Poultry,
-        Fish_Meat,
-        Pork,
+        public const string Banana = "Banana";
+        public const string Apple = "Apple";
+        public const string Grape = "Grape";
+        public const string Beef = "Beef";
+        public const string Poultry = "Poultry";
+        public const string Fish_Meat = "Fish Meat";
+        public const string Pork = "Pork";
 
     }
-    public enum MealNames
+
+    public class MealNames
     {
-        Kebab_Mix,
-        Fruit_Salad,
+        public const string Kebab_Mix = "Kebab Mix";
+        public const string Fruit_Salad = "Fruit Salad";
 
     }
 }

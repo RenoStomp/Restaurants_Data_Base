@@ -4,6 +4,9 @@
     {
         public string Name { get; set; }
         public string ChefsName { get; set; }
+        /// <summary>
+        /// Dictionary for saving meal with sell price
+        /// </summary>
         public Dictionary<Meal, double> Meals { get; set; }
 
 
@@ -18,18 +21,22 @@
                 Meals.Add(meal, mealPrice);
             }
         }
-
-        public void Print()
+        /// <summary>
+        /// This method shows all menu of the restaurant, every ingredient in it, real price and sell price
+        /// </summary>
+        public void PrintInfo()
         {
             Console.WriteLine(Name.ToUpper());
-            Console.WriteLine();
+
+            Console.WriteLine($"\nChef - {ChefsName}\n");
+
             Console.WriteLine("Menu:");
             Console.WriteLine();
             foreach(var meal in Meals)
             {
-                meal.Key.ShowIngredientsPrices();
+                meal.Key.ShowIngredientsAndPrice();
                 Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
-                Console.WriteLine("-----------------------------");
+                Console.WriteLine("-----------------------------\n");
 
             }
         }

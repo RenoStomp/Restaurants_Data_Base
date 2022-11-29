@@ -3,6 +3,9 @@
     public class Meal
     {
         public string Name { get; set; }
+        /// <summary>
+        /// Dictionary for saving ingredient and its weight in that meal
+        /// </summary>
         public Dictionary<Ingredient, double> Ingredients = new Dictionary<Ingredient, double>();
         public double MealPrice { get; set; }
         public double MealWeight { get; set; }
@@ -16,7 +19,8 @@
             foreach (var option in ingredients)
             {
                 MealWeight += option.Value;
-                MealPrice += option.Value * option.Key.CostPerGram / 100;
+                MealPrice += (option.Value * option.Key.CostPerGram) / 100;
+                option.Key.TotalUsing += option.Value;
             }
             MealWeight = Math.Round(MealWeight, 2);
             MealPrice = Math.Round(MealPrice, 2);
@@ -31,20 +35,25 @@
                 Console.WriteLine($"{ingredient.Key.Name} - {ingredient.Key.CostPerGram} cents per gram"); ;
             }
         }
-        public void ShowIngredientsPrices()
+
+        /// <summary>
+        /// It shows all ingredients with weight and total price in that meal and meal weight and price
+        /// </summary>
+        public void ShowIngredientsAndPrice()
         {
             Console.WriteLine($"{Name}:");
             Console.WriteLine();
 
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             foreach (var ingredient in Ingredients)
             {
                 double cost = ingredient.Key.CostPerGram * 0.01;
                 Console.WriteLine($"{ingredient.Key.Name} - {ingredient.Value} grams - {cost} dollars");
             }
+            Console.ForegroundColor= ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine($"Total price - {MealPrice} dollars");
             Console.WriteLine($"Total weight - {MealWeight} grams");
-            Console.WriteLine();
             Console.WriteLine("-----------------------------");
         }
 
