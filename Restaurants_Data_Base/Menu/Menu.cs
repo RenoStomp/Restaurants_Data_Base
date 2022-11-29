@@ -49,7 +49,6 @@ namespace Restaurants_Data_Base.Menu
         /// Accepting only allowed buttons
         /// </summary>
         /// <returns>ConsoleKey that is allowed</returns>
-
         public static ConsoleKey PressButton(ConsoleKey[] keys)
         {
 
@@ -61,6 +60,9 @@ namespace Restaurants_Data_Base.Menu
             return key.Key;
         }
 
+        /// <summary>
+        /// Shows Main Menu
+        /// </summary>
         public static void PrintMainMenu()
         {
             Console.Write("\nWelcome to the ");
@@ -77,14 +79,11 @@ namespace Restaurants_Data_Base.Menu
 
         }
 
-
-
         /// <summary>
         /// Shows all ingredients in every meal in every restaurant in one list with total weight
         /// for each ingredient and the most used ingredient
         /// </summary>
-        /// <param name="allIngredients"></param>
-
+        /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowIngredients(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
             Ingredient mostUsed = new("", 0);
@@ -120,7 +119,12 @@ namespace Restaurants_Data_Base.Menu
             Console.Clear();
             ExecuteMenu(allRestaurants, allIngredients);
         }
-
+        
+        /// <summary>
+        /// Shows all restaurants with their chefs 
+        /// </summary>
+        /// <param name="allRestaurants">List of restaurants</param>
+        /// <param name="allIngredients">List of ingredients</param>
         public static void ShowRestaurants(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
             Console.WriteLine();
@@ -135,9 +139,10 @@ namespace Restaurants_Data_Base.Menu
 
             List<ConsoleKey> restaurantKeysList = new();
 
-            // here I have added UTF numbers of keys so I can add as many keys as I need
+            // here I have added ASCII numbers of keys so I can add as many keys as I need
             // max amount of restaurants is 9
-            for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)
+            //TODO: make a limit of 9 restaurants
+            for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
             {
                 restaurantKeysList.Add((ConsoleKey)j);
                 restaurantKeysList.Add((ConsoleKey)k);

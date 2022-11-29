@@ -26,16 +26,6 @@
             MealPrice = Math.Round(MealPrice, 2);
         }
 
-        public void ShowIngredientsPricesPerGram()
-        {
-            Console.WriteLine($"{Name}:");
-
-            foreach (var ingredient in Ingredients)
-            {
-                Console.WriteLine($"{ingredient.Key.Name} - {ingredient.Key.CostPerGram} cents per gram"); ;
-            }
-        }
-
         /// <summary>
         /// Shows all ingredients with weight and total price in that meal and meal weight and price
         /// </summary>
