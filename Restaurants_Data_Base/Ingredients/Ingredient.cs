@@ -28,7 +28,7 @@
             Console.WriteLine($" kilos");
         }
 
-
+        //TODO: change child classes to enum and add enum property
 
 
     }
