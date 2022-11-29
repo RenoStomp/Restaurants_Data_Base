@@ -16,6 +16,7 @@
     {
         public const string Kebab_Mix = "Kebab Mix";
         public const string Fruit_Salad = "Fruit Salad";
-
+        public const string Beef_Kebab = "Beef Kebab";
+        public const string Chicken_Kebab = "Chicken Kebab";
     }
 }

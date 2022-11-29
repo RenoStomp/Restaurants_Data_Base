@@ -41,7 +41,12 @@
         /// </summary>
         public void ShowIngredientsAndPrice()
         {
-            Console.WriteLine($"{Name}:");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write($"{Name}:");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -54,7 +59,7 @@
             Console.WriteLine();
             Console.WriteLine($"Total price - {MealPrice} dollars");
             Console.WriteLine($"Total weight - {MealWeight} grams");
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("-----------------------------------------------");
         }
 
 

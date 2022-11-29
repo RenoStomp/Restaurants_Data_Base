@@ -25,13 +25,13 @@ Dictionary<Ingredient, double> beefKebabIngredients = new Dictionary<Ingredient,
 {
     {cowMeat, 250 }
 };
-Meal beefKebab = new Meal("Beef Kebab", beefKebabIngredients);
+Meal beefKebab = new Meal(MealNames.Beef_Kebab, beefKebabIngredients);
 
 Dictionary<Ingredient, double> chickenKebabIngredients = new Dictionary<Ingredient, double>()
 {
     {chikenMeat, 300 }
 };
-Meal chickenKebab = new Meal("Chicken Kebab", chickenKebabIngredients);
+Meal chickenKebab = new Meal(MealNames.Chicken_Kebab, chickenKebabIngredients);
 
 Dictionary<Ingredient, double> kebabmixIngredients = new Dictionary<Ingredient, double>()
 {

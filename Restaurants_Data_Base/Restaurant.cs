@@ -22,7 +22,7 @@
             }
         }
         /// <summary>
-        /// This method shows all menu of the restaurant, every ingredient in it, real price and sell price
+        /// This method shows all menu of the restaurant, every ingredient in it, weight, real price and sell price
         /// </summary>
         public void PrintInfo()
         {
@@ -36,7 +36,7 @@
             {
                 meal.Key.ShowIngredientsAndPrice();
                 Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
-                Console.WriteLine("-----------------------------\n");
+                Console.WriteLine("-----------------------------------------------\n");
 
             }
         }
