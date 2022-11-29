@@ -25,7 +25,9 @@
         /// Shows all menu of the restaurant, every ingredient in it, weight, real price and sell price
         /// </summary>
         public void PrintInfo()
-        {
+        {//TODO: printing first two meals everytime as much as you use that print...fix it
+            //Console.SetCursorPosition(0, 0);
+            //Console.Clear();
             Console.WriteLine(Name.ToUpper());
 
             Console.WriteLine($"\nChef - {ChefsName}\n");

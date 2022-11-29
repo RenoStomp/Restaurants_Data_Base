@@ -136,6 +136,7 @@ namespace Restaurants_Data_Base.Menu
             List<ConsoleKey> restaurantKeysList = new();
 
             // here I have added UTF numbers of keys so I can add as many keys as I need
+            // max amount of restaurants is 9
             for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)
             {
                 restaurantKeysList.Add((ConsoleKey)j);
