@@ -1,6 +1,5 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
-using System.Collections.Generic;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -9,85 +8,9 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Start an app
         /// </summary>
-        public static void ExecuteMenu()
+        public static void ExecuteMenu(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
-
-            Fruit banana = new Fruit(Names.Banana, 10);
-            Fruit apple = new Fruit(Names.Apple, 12);
-            Fruit grape = new Fruit(Names.Grape, 11);
-
-            Meat cowMeat = new Meat(Names.Beef, 50);
-            Meat chikenMeat = new Meat(Names.Poultry, 40);
-            Meat fishMeat = new Meat(Names.Fish_Meat, 70);
-            Meat pigMeat = new Meat(Names.Pork, 60);
-
-            List<Ingredient> allIngredients = new List<Ingredient>
-            {
-                banana,
-                apple,
-                grape,
-                cowMeat,
-                chikenMeat,
-                fishMeat,
-                pigMeat,
-
-            };
-
-            Dictionary<Ingredient, double> beefKebabIngredients = new Dictionary<Ingredient, double>()
-            {
-                {cowMeat, 250 }
-            };
-            Meal beefKebab = new Meal(MealNames.Beef_Kebab, beefKebabIngredients);
-
-            Dictionary<Ingredient, double> chickenKebabIngredients = new Dictionary<Ingredient, double>()
-            {
-                {chikenMeat, 300 }
-            };
-            Meal chickenKebab = new Meal(MealNames.Chicken_Kebab, chickenKebabIngredients);
-
-            Dictionary<Ingredient, double> kebabmixIngredients = new Dictionary<Ingredient, double>()
-            {
-                {cowMeat, 100 },
-                {chikenMeat, 100 }
-            };
-            Meal kebabmix = new Meal(MealNames.Kebab_Mix, kebabmixIngredients);
-
-            Dictionary<Ingredient, double> fruitSaladIngredients = new Dictionary<Ingredient, double>()
-            {
-                { banana, 50},
-                { apple, 77},
-                { grape, 99 }
-            };
-            Meal fruitSalad = new Meal(MealNames.Fruit_Salad, fruitSaladIngredients);
-
-            List<Meal> kfcMeals = new List<Meal>
-            {
-                fruitSalad,
-                kebabmix,
-                beefKebab,
-                chickenKebab
-            };
-
-            Restaurant kfc = new Restaurant("KFC", "PIDORAS", kfcMeals);
-
-            List<Restaurant> allRestaurants = new List<Restaurant>()
-            {
-                kfc,
-
-            };
-
-            //////////
-            //Kfc.PrintInfo();
-
-            //ShowIngredients(allIngredients);
-
-
-
-
             Console.CursorVisible = false;
-            //Console.ReadKey(true);
-            //////////
-
             ConsoleKey[] mainMenuKeys = new ConsoleKey[]
             {
                 ConsoleKey.NumPad1,
@@ -103,14 +26,16 @@ namespace Restaurants_Data_Base.Menu
             var option = PressButton(mainMenuKeys);
             switch (option)
             {
-                case ConsoleKey.D1: case ConsoleKey.NumPad1:
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
                     Console.Clear();
-                    ShowRestaurants(allRestaurants);
+                    ShowRestaurants(allRestaurants, allIngredients);
                     break;
 
-                case ConsoleKey.D2: case ConsoleKey.NumPad2:
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
                     Console.Clear();
-                    ShowIngredients(allIngredients);
+                    ShowIngredients(allRestaurants, allIngredients);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -124,7 +49,7 @@ namespace Restaurants_Data_Base.Menu
         /// Accepting only allowed buttons
         /// </summary>
         /// <returns>ConsoleKey that is allowed</returns>
-        
+
         public static ConsoleKey PressButton(ConsoleKey[] keys)
         {
 
@@ -160,14 +85,14 @@ namespace Restaurants_Data_Base.Menu
         /// </summary>
         /// <param name="allIngredients"></param>
 
-        public static void ShowIngredients(List<Ingredient> allIngredients)
+        public static void ShowIngredients(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
             Ingredient mostUsed = new("", 0);
 
             foreach (Ingredient ingredient in allIngredients)
             {
                 ingredient.ShowTotalUsed();
-                if(mostUsed.TotalUsing > ingredient.TotalUsing)
+                if (mostUsed.TotalUsing > ingredient.TotalUsing)
                 {
                     continue;
                 }
@@ -190,17 +115,17 @@ namespace Restaurants_Data_Base.Menu
             {
                 back = Console.ReadKey(true);
             } while (back.Key != ConsoleKey.Backspace && back.Key != ConsoleKey.Escape);
-            if(back.Key == ConsoleKey.Escape)
+            if (back.Key == ConsoleKey.Escape)
                 Environment.Exit(0);
             Console.Clear();
-            ExecuteMenu();
+            ExecuteMenu(allRestaurants, allIngredients);
         }
 
-        public static void ShowRestaurants(List<Restaurant> allRestaurants)
+        public static void ShowRestaurants(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
             Console.WriteLine();
             int numberOfRest = 0;
-            foreach(var rest in allRestaurants)
+            foreach (var rest in allRestaurants)
             {
                 numberOfRest++;
                 Console.WriteLine($"[{numberOfRest}]  -  {rest.Name}  -  CHEF {rest.ChefsName}");
@@ -211,7 +136,7 @@ namespace Restaurants_Data_Base.Menu
             List<ConsoleKey> restaurantKeysList = new();
 
             // here I have added UTF numbers of keys so I can add as many keys as I need
-            for(int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)
+            for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)
             {
                 restaurantKeysList.Add((ConsoleKey)j);
                 restaurantKeysList.Add((ConsoleKey)k);
@@ -225,7 +150,7 @@ namespace Restaurants_Data_Base.Menu
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
-                    ExecuteMenu();
+                    ExecuteMenu(allRestaurants, allIngredients);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -233,9 +158,9 @@ namespace Restaurants_Data_Base.Menu
             }
 
             string test = option.ToString();
-            int count = Convert.ToInt32(test[test.Length-1]);    // даже не буду пытаться написать на англ...
+            int count = Convert.ToInt32(test[test.Length - 1]);    // даже не буду пытаться написать на англ...
             count -= 49;                                       // задолбался с этими внутренними значениями клавиш...
-                                     // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
+                                                               // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
             Console.Clear();
             allRestaurants[count].PrintInfo();
             Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
@@ -249,7 +174,7 @@ namespace Restaurants_Data_Base.Menu
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
-                    ShowRestaurants(allRestaurants);
+                    ShowRestaurants(allRestaurants, allIngredients);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
