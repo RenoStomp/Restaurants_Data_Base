@@ -5,6 +5,7 @@
         public string Name { get; set; }
         public double CostPerGram { get; set; }
         public double TotalUsing { get; set; } = 0;
+        public Type Kind { get; set; }
 
         public Ingredient(string name, double costPerGram)
         {
@@ -28,6 +29,15 @@
             Console.WriteLine($" kilos");
         }
 
+        public enum Type
+        {
+            Meat,
+            Vegetable,
+            Spice,
+            Fruit,
+            Sauce,
+
+        }
         //TODO: change child classes to enum and add enum property
 
 
