@@ -5,3 +5,9 @@ Beef"50"Meat
 Poultry"40"Meat
 Fish Meat"70"Meat
 Pork"60"Meat
+Tomato"5"Vegetable
+Carrot"3"Vegetable
+Onion"2"Vegetable
+Green"1"Vegetable
+Juice"10"Other
+Rice"5"Other

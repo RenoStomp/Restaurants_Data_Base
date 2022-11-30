@@ -3,3 +3,4 @@ Chicken Kebab"Poultry'300
 Kebab Mix"Beef'100"Poultry'100
 Fruit Salad"Banana'50"Apple'77"Grape'99
 Salad"Apple'99"Banana'100
+Plov"Carrot'70"Onion'40"Rice'150

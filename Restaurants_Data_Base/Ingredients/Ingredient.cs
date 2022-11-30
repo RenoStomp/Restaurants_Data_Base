@@ -41,7 +41,7 @@
             Spice,
             Fruit,
             Sauce,
-            Unknown
+            Other
         }
     }
 }

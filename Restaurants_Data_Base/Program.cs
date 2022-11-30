@@ -14,12 +14,12 @@ List<Restaurant> restaurants = WorkWithFiles.ReadRestaurants(meals);
 //    { ingredients[1], 10 },
 //    { ingredients[2], 333 },
 //};
-//ingredients.Add(new Ingredient("Milk", 4, Ingredient.Kind.Unknown));
+//ingredients.Add(new Ingredient("Milk", 4, Ingredient.Kind.Other));
 //meals.Add(new Meal("Huinya", sostav));
 //restaurants.Add(new Restaurant("Zalupen", "Hueglot", meals));
 
 Menu.ExecuteMenu(restaurants, meals, ingredients);
 
 
-WorkWithFiles.SaveData(ingredients, meals, restaurants);
+//WorkWithFiles.SaveData(ingredients, meals, restaurants);
 //WorkWithFiles.SaveData(ingredients, meals, restaurants);

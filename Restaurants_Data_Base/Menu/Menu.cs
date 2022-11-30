@@ -1,6 +1,8 @@
-﻿using Restaurants_Data_Base.Ingredients;
+﻿using Restaurants_Data_Base.Files;
+using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -95,7 +97,7 @@ namespace Restaurants_Data_Base.Menu
         /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowIngredients(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
-            Ingredient mostUsed = new("", 0, Ingredient.Kind.Unknown);
+            Ingredient mostUsed = new("", 0, Ingredient.Kind.Other);
 
             foreach (Ingredient ingredient in ingredients)
             {
@@ -316,28 +318,139 @@ namespace Restaurants_Data_Base.Menu
                     Environment.Exit(0);
                     break;
                 case ConsoleKey.I:
-                    AddIngredient(ref ingredients, ref meals, ref restaurants);
+                    AddIngredient(ref ingredients);
                     break;
                 case ConsoleKey.M:
-                    AddMeal(ref ingredients, ref meals, ref restaurants);
+                    AddMeal(ref ingredients, ref meals);
                     break;
                 case ConsoleKey.R:
                     AddRestaurant(ref ingredients, ref meals, ref restaurants);
                     break;
 
             }
+            WorkWithFiles.SaveData(ingredients, meals, restaurants);
+            Console.Clear();
+            Console.WriteLine("\n   SAVED SUCCESSFULLY!\n\nPress any button to return to Main Menu");
+            Console.ReadKey(true);
+            ExecuteMenu(restaurants, meals, ingredients);
         }
 
-        public static void AddIngredient(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants) 
-        { 
-
-        }
-        public static void AddMeal(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
+        public static Ingredient? AddIngredient(ref List<Ingredient> ingredients) 
         {
+            List<string> names = new List<string>();
+            foreach(Ingredient ingredient in ingredients)
+            {
+                names.Add(ingredient.Name);
+            }
+            Console.Clear();
+            Console.CursorVisible = true;
+            Console.Write("Input name of your ingredient: ");
+            string name = Console.ReadLine();
 
+            if (!names.Contains(name))
+            {
+
+                Console.Write($"\ninput price per gram for {name}: ");
+                string costInput = Console.ReadLine();
+                double costPerGram;
+                while (!double.TryParse(costInput, out costPerGram))
+                {
+                    Console.Write("\nIncorrect input. Try again: ");
+                    costInput = Console.ReadLine();
+                }
+                Console.CursorVisible = false;
+                Console.WriteLine("\nChoose type of your ingredient:");
+                Console.WriteLine("[V] - Vegetable\n" +
+                    $"[M] - Meat\n" +
+                    $"[S] - Spice\n" +
+                    $"[F] - Fruit\n" +
+                    $"[C] - Sauce\n" +
+                    $"[O] - Other");
+                ConsoleKeyInfo key;
+                do
+                {
+                    key = Console.ReadKey(true);
+                } while (key.Key != ConsoleKey.M && key.Key != ConsoleKey.V && key.Key != ConsoleKey.S && key.Key != ConsoleKey.F && key.Key != ConsoleKey.C && key.Key != ConsoleKey.O);
+
+                Ingredient nin = new Ingredient("", 0, Ingredient.Kind.Other);
+                switch (key.Key)
+                {
+                    case ConsoleKey.M:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Meat);
+                        ingredients.Add(nin);
+                        break;
+                    case ConsoleKey.V:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Vegetable);
+                        ingredients.Add(nin);
+                        break;
+                    case ConsoleKey.S:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Spice);
+                        ingredients.Add(nin);
+                        break;
+                    case ConsoleKey.F:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Fruit);
+                        ingredients.Add(nin);
+                        break;
+                    case ConsoleKey.C:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Sauce);
+                        ingredients.Add(nin);
+                        break;
+                    case ConsoleKey.O:
+                        nin = new Ingredient(name, costPerGram, Ingredient.Kind.Other);
+                        ingredients.Add(nin);
+                        break;
+                }
+                return nin;
+            }
+            foreach(var ingredient in ingredients)
+            {
+                if(ingredient.Name == name)
+                {
+                    return ingredient;
+                }
+            }
+            return null;
+
+        }
+
+        public static Meal AddMeal(ref List<Ingredient> ingredients, ref List<Meal> meals)
+        {
+            Console.Clear();
+            Console.CursorVisible = true;
+            Console.Write("Input name of your meal: ");
+            string name = Console.ReadLine();
+            Console.Write("How many ingredients will it include? : ");
+            int index;
+            while(!Int32.TryParse(Console.ReadLine(), out index))
+            {
+                Console.Write("\nIncorrect input. Try again: ");
+            }
+
+            List<Meal> mealsList = new List<Meal>();
+            Dictionary<Ingredient, double> mealIngredients = new Dictionary<Ingredient, double>();
+
+            for (int i = 0; i < index; i++)
+            {
+                Ingredient ingredient = AddIngredient(ref ingredients);
+                Console.Write("\nInput amount of that ingredient: ");
+                int amount;
+                while (!Int32.TryParse(Console.ReadLine(), out amount))
+                {
+                    Console.Write("\nIncorrect input. Try again: ");
+                }
+                mealIngredients.Add(ingredient, amount);
+            }
+            Meal meal = new Meal(name, mealIngredients);
+            meals.Add(meal);
+            mealsList.Add(meal);
+            Console.WriteLine("\n\nMeal created SUCCESSFULLY!\nPress any button to continue");
+            Console.ReadKey(true);
+            Console.CursorVisible = false;
+            return meal;
         }
         public static void AddRestaurant(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
         {
+            Console.Clear();
 
         }
     }
