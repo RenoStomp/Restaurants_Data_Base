@@ -67,13 +67,4 @@ List<Restaurant> allRestaurants = new List<Restaurant>()
 
 };
 
-
-//////////
-//Kfc.PrintInfo();
-
-//ShowIngredients(allIngredients);
-
-
-
-
 Menu.ExecuteMenu(allRestaurants, allIngredients);
