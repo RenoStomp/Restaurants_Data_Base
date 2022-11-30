@@ -37,7 +37,7 @@
             Console.WriteLine();
             int numberOfMeal = 0;
             foreach (var meal in Meals)
-            {
+            {//TODO: Remove comments
                 //meal.Key.ShowIngredientsAndPrice();
                 //Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
                 //Console.WriteLine("-----------------------------------------------\n");
