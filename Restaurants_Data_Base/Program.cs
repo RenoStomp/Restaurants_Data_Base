@@ -59,7 +59,7 @@ List<Meal> kfcMeals = new List<Meal>
     chickenKebab
 };
 
-Restaurant kfc = new Restaurant("KFC", "PIDORAS", kfcMeals);
+Restaurant kfc = new Restaurant("KFC", "Hui Znaet", kfcMeals);
 
 List<Restaurant> allRestaurants = new List<Restaurant>()
 {

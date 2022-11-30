@@ -1,5 +1,6 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
@@ -130,26 +131,19 @@ namespace Restaurants_Data_Base.Menu
         /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowRestaurants(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
-            Console.WriteLine();
             int numberOfRest = 0;
+            List<string> lines = new List<string>();
             foreach (var rest in allRestaurants)
             {
                 numberOfRest++;
-                Console.Write($"[{numberOfRest}]  -  ");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(rest.Name);
-                Console.ResetColor();
-                Console.WriteLine($"  -  CHEF {rest.ChefsName}");
+                string line = $"  {rest.Name} - CHEF {rest.ChefsName}";
+                lines.Add(line);
             }
-            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+            int index = 0;
+            string title = $"Choose a restaurant:";
+            var keyInfo = ShowOptionsAndChoose(title, lines, index: ref index);
 
-
-            // here I have added ASCII numbers of keys so I can add as many keys as I need
-            // max amount of restaurants is 9
-            //TODO: make a limit of 9 restaurants (9 keys on keyboard)
-
-            var option = ReturnPressedButton(numberOfRest);
-            switch (option)
+            switch (keyInfo.Key)
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
@@ -158,51 +152,53 @@ namespace Restaurants_Data_Base.Menu
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
                     break;
+                case ConsoleKey.Enter:
+                    PrintMenuOfRestaurant(allRestaurants[index], allRestaurants, allIngredients);
+                    break;
             }
 
-            string count = option.ToString();
-            int index = Convert.ToInt32(count[count.Length - 1]);
-            index -= 49;      //from ASCII to regular int index
+
+            #region DELETE
+
+            // here I have added ASCII numbers of keys so I can add as many keys as I need
+            // max amount of restaurants is 9
+            //TODO: make a limit of 9 restaurants (9 keys on keyboard)
+
+            //var option = ReturnPressedButton(numberOfRest);
+            //switch (option)
+            //{
+            //    case ConsoleKey.Backspace:
+            //        Console.Clear();
+            //        ExecuteMenu(allRestaurants, allIngredients);
+            //        break;
+            //    case ConsoleKey.Escape:
+            //        Environment.Exit(0);
+            //        break;
+            //}
+
+            //string count = option.ToString();
+            //int index = Convert.ToInt32(count[count.Length - 1]);
+            //index -= 49;      //from ASCII to regular int index
 
             // даже не буду пытаться написать на англ...
             // задолбался с этими внутренними значениями клавиш...
             // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
+            #endregion
 
-            PrintMenu(allRestaurants[index], allRestaurants, allIngredients);
 
 
 
         }
 
         /// <summary>
-        /// Shows all menu of the restaurant
+        /// Shows all options and returns the line you have choose
         /// </summary>
-        public static void PrintMenu(Restaurant restaurant, List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        /// <param name="title">Title</param>
+        /// <param name="lines">List of lines</param>
+        /// <param name="index">int parameter for chosen line</param>
+        /// <returns></returns>
+        public static ConsoleKeyInfo ShowOptionsAndChoose(string title, List<string> lines, ref int index)
         {
-            //TODO: console clear cleaning only visible part of console...try to fix it
-
-            Console.Clear();
-            Console.WriteLine(restaurant.Name.ToUpper());
-
-            Console.WriteLine($"\nChef - {restaurant.ChefsName}\n");
-
-            Console.WriteLine("Menu:");
-            Console.WriteLine();
-
-            int numberOfMeal = 0;
-            List<string> lines = new List<string>();
-            foreach (var meal in restaurant.Meals)
-            {
-                numberOfMeal++;
-                string line = $"  {meal.Key.Name}  -  {meal.Value} $  -  {meal.Key.MealWeight} grams";
-                lines.Add(line);
-                
-                
-                //Console.WriteLine(line);
-            }
-            //TODO: method for showing menu
-            int index = 0;
-            string title = $"\n{restaurant.Name}'s Menu:";
             ShowOptions(title, lines, index);
             ConsoleKeyInfo keyInfo;
             do
@@ -224,36 +220,28 @@ namespace Restaurants_Data_Base.Menu
                         }
                         ShowOptions(title, lines, index);
                         break;
-                    case ConsoleKey.Enter:
-                        var choosenMeal = restaurant.Meals.ElementAt(index);
-                        choosenMeal.Key.ShowIngredientsAndPrice();
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"{choosenMeal.Key.Name}'s sell price - {choosenMeal.Value} dollars");
-                        Console.ResetColor();
-                        Console.WriteLine("-----------------------------------------------\n");
-
-                        Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
-
-                        ConsoleKey[] keys = new ConsoleKey[]
-                        {
-                        ConsoleKey.Backspace,
-                        ConsoleKey.Escape
-                        };
-                        var choice = PressButton(keys);
-                        switch (choice)
-                        {
-                            case ConsoleKey.Backspace:
-                                Console.Clear();
-                                PrintMenu(restaurant, allRestaurants, allIngredients);
-                                break;
-                            case ConsoleKey.Escape:
-                                Environment.Exit(0);
-                                break;
-                        }
-                        break;
                 }
-            } while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Backspace);
-
+            } while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter);
+            return keyInfo;
+        }
+        /// <summary>
+        /// Shows all menu of the restaurant
+        /// </summary>
+        public static void PrintMenuOfRestaurant(Restaurant restaurant, List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        {
+            int numberOfMeal = 0;
+            List<string> lines = new List<string>();
+            foreach (var meal in restaurant.Meals)
+            {
+                numberOfMeal++;
+                string line = $"  {meal.Key.Name}  -  {meal.Value} $  -  {meal.Key.MealWeight} grams";
+                lines.Add(line);
+            }
+            int index = 0;
+            string title = $" {restaurant.Name}\n" +
+                $" Chef - {restaurant.ChefsName}\n\n" +
+                $" Menu:";
+            var keyInfo = ShowOptionsAndChoose(title, lines, index: ref index);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.Backspace:
@@ -263,54 +251,65 @@ namespace Restaurants_Data_Base.Menu
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
                     break;
+                case ConsoleKey.Enter:
+                    var choosenMeal = restaurant.Meals.ElementAt(index);
+                    choosenMeal.Key.ShowIngredientsAndPrice();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"{choosenMeal.Key.Name}'s sell price - {choosenMeal.Value} dollars");
+                    Console.ResetColor();
+                    Console.WriteLine("-----------------------------------------------\n");
+
+                    Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+
+                    ConsoleKey[] keys = new ConsoleKey[]
+                    {
+                        ConsoleKey.Backspace,
+                        ConsoleKey.Escape
+                    };
+                    var choice = PressButton(keys);
+                    switch (choice)
+                    {
+                        case ConsoleKey.Backspace:
+                            Console.Clear();
+                            PrintMenuOfRestaurant(restaurant, allRestaurants, allIngredients);
+                            break;
+                        case ConsoleKey.Escape:
+                            Environment.Exit(0);
+                            break;
+                    }
+                    break;
             }
-            //TODO: rework choosing way
-            #region Change that block
-
-            //var option = ReturnPressedButton(numberOfMeal);
-            //switch (option)
-            //{
-            //    case ConsoleKey.Backspace:
-            //        Console.Clear();
-            //        ShowRestaurants(allRestaurants, allIngredients);
-            //        break;
-            //    case ConsoleKey.Escape:
-            //        Environment.Exit(0);
-            //        break;
-            //}
-
-            //string count = option.ToString();
-            //int index = Convert.ToInt32(count[count.Length - 1]);
-            //index -= 49; //from ASCII to regular int index
-
-            #endregion
-
-
         }
+
+        ///// <summary>
+        ///// Helps to make pressable as much buttons as you need and return pressed button as ConsoleKey
+        ///// </summary>
+        ///// <param name="numberOfElements">Number </param>
+        ///// <param name="allRestaurants"></param>
+        ///// <param name="allIngredients"></param>
+        ///// <returns></returns>
+        //public static ConsoleKey ReturnPressedButton(int numberOfElements)
+        //{
+        //    List<ConsoleKey> keysList = new();
+        //    for (int i = 0, j = 97, k = 49; i < numberOfElements; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
+        //    {
+        //        keysList.Add((ConsoleKey)j);
+        //        keysList.Add((ConsoleKey)k);
+        //    }
+        //    keysList.Add(ConsoleKey.Backspace);
+        //    keysList.Add(ConsoleKey.Escape);
+        //    ConsoleKey[] keys = keysList.ToArray();
+
+        //    var option = PressButton(keys);
+        //    return option;
+        //}
 
         /// <summary>
-        /// Helps to make pressable as much buttons as you need and return pressed button as ConsoleKey
+        /// Shows menu of options with title
         /// </summary>
-        /// <param name="numberOfElements">Number </param>
-        /// <param name="allRestaurants"></param>
-        /// <param name="allIngredients"></param>
-        /// <returns></returns>
-        public static ConsoleKey ReturnPressedButton(int numberOfElements)
-        {
-            List<ConsoleKey> keysList = new();
-            for (int i = 0, j = 97, k = 49; i < numberOfElements; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
-            {
-                keysList.Add((ConsoleKey)j);
-                keysList.Add((ConsoleKey)k);
-            }
-            keysList.Add(ConsoleKey.Backspace);
-            keysList.Add(ConsoleKey.Escape);
-            ConsoleKey[] keys = keysList.ToArray();
-
-            var option = PressButton(keys);
-            return option;
-        }
-
+        /// <param name="title">Title</param>
+        /// <param name="lines">List of lines</param>
+        /// <param name="index">int parameter for displaying chosen line</param>
         public static void ShowOptions(string title, List<string> lines, int index)
         {
             Console.Clear();
