@@ -21,6 +21,8 @@ namespace Restaurants_Data_Base.Menu
                 ConsoleKey.Escape,
                 ConsoleKey.NumPad3,
                 ConsoleKey.D3,
+                ConsoleKey.NumPad4,
+                ConsoleKey.D4,
 
             };
 
@@ -42,6 +44,9 @@ namespace Restaurants_Data_Base.Menu
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
+                    break;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -80,6 +85,8 @@ namespace Restaurants_Data_Base.Menu
             Console.WriteLine("[1]    -  Restaurants");
             Console.WriteLine("[2]    -  The most popular ingredient in all restaurants");
             Console.WriteLine("[3]    -  EMPTY");
+            Console.WriteLine("[4]    -  EMPTY");
+
 
             Console.WriteLine();
             Console.WriteLine("[Esc]  -  Close app");

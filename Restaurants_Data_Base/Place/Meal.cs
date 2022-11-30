@@ -52,9 +52,5 @@
             Console.WriteLine($"Total weight - {MealWeight} grams");
             Console.WriteLine("-----------------------------------------------");
         }
-
-
-
-
     }
 }

@@ -1,2 +1,2 @@
-KFC"Beef Kebab"Chicken Kebab"Kebab Mix"Fruit Salad
-Cafe"Fruit Salad"Salad
+KFC"Sanders"Beef Kebab"Chicken Kebab"Kebab Mix"Fruit Salad
+Cafe"Baykanush"Fruit Salad"Salad

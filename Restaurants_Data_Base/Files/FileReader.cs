@@ -21,7 +21,6 @@ namespace Restaurants_Data_Base.Files
                 while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    Console.WriteLine(line);
                 }
 
                 foreach(string position in lines)
@@ -53,7 +52,6 @@ namespace Restaurants_Data_Base.Files
                 while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    Console.WriteLine(line);
                 }
                 foreach (string position in lines)
                 {
@@ -84,7 +82,7 @@ namespace Restaurants_Data_Base.Files
         /// Returns List of restaurants from .txt file
         /// </summary>
         /// <returns></returns>
-        public static List<Restaurant> ReadRestaurants()
+        public static List<Restaurant> ReadRestaurants(List<Meal> meals)
         {
 
             List<Restaurant> restaurants = new List<Restaurant>();
@@ -96,18 +94,28 @@ namespace Restaurants_Data_Base.Files
                 while ((line = file.ReadLine()) != null)
                 {
                     lines.Add(line);
-                    Console.WriteLine(line);
                 }
-                //foreach (string position in lines)
-                //{
-                //    string[] strings = position.Split('"');
+                foreach (string position in lines)
+                {
+                    string[] strings = position.Split('"');
 
-                //    string name = strings[0];
-                //    double.TryParse(strings[1], out double costPerGram);
-                //    Enum.TryParse(strings[2], out Kind kind);
+                    string name = strings[0];
+                    string chefsName = strings[1];
+                    List<Meal> mealsInRestaurant = new List<Meal>();
 
-                //    restaurants.Add(new Restaurant(name, costPerGram, kind));
-                //}
+                    for(int i = 2; i < strings.Length; i++)
+                    {
+                        foreach(Meal meal in meals)
+                        {
+                            if (strings[i].Equals(meal.Name))
+                            {
+                                mealsInRestaurant.Add(meal);
+                                break;
+                            }
+                        }
+                    }
+                    restaurants.Add(new Restaurant(name, chefsName, mealsInRestaurant));
+                }
             }
 
             return restaurants;
