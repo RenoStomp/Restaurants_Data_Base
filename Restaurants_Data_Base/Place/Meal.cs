@@ -31,7 +31,9 @@
         /// </summary>
         public void ShowIngredientsAndPrice()
         {
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.Clear();
+            Console.WriteLine();
+            Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write($"{Name}:");
             Console.ResetColor();

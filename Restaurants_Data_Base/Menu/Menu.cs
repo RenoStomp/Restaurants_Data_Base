@@ -1,5 +1,8 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -132,26 +135,20 @@ namespace Restaurants_Data_Base.Menu
             foreach (var rest in allRestaurants)
             {
                 numberOfRest++;
-                Console.WriteLine($"[{numberOfRest}]  -  {rest.Name}  -  CHEF {rest.ChefsName}");
+                Console.Write($"[{numberOfRest}]  -  ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(rest.Name);
+                Console.ResetColor();
+                Console.WriteLine($"  -  CHEF {rest.ChefsName}");
             }
-            //Console.ResetColor();
             Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
 
-            List<ConsoleKey> restaurantKeysList = new();
 
             // here I have added ASCII numbers of keys so I can add as many keys as I need
             // max amount of restaurants is 9
             //TODO: make a limit of 9 restaurants (9 keys on keyboard)
-            for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
-            {
-                restaurantKeysList.Add((ConsoleKey)j);
-                restaurantKeysList.Add((ConsoleKey)k);
-            }
-            restaurantKeysList.Add(ConsoleKey.Backspace);
-            restaurantKeysList.Add(ConsoleKey.Escape);
-            ConsoleKey[] restaurantKeys = restaurantKeysList.ToArray();
 
-            var option = PressButton(restaurantKeys);
+            var option = ReturnPressedButton(numberOfRest);
             switch (option)
             {
                 case ConsoleKey.Backspace:
@@ -163,19 +160,57 @@ namespace Restaurants_Data_Base.Menu
                     break;
             }
 
-            string test = option.ToString();
-            int count = Convert.ToInt32(test[test.Length - 1]);    // даже не буду пытаться написать на англ...
-            count -= 49;                                       // задолбался с этими внутренними значениями клавиш...
-                                                               // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
-            allRestaurants[count].PrintMenu();
-            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
-            ConsoleKey[] keys = new ConsoleKey[]
+            string count = option.ToString();
+            int index = Convert.ToInt32(count[count.Length - 1]);
+            index -= 49;      //from ASCII to regular int index
+
+            // даже не буду пытаться написать на англ...
+            // задолбался с этими внутренними значениями клавиш...
+            // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
+
+            PrintMenu(allRestaurants[index], allRestaurants, allIngredients);
+
+
+
+        }
+        //TODO: change description
+        /// <summary>
+        /// Shows all menu of the restaurant
+        /// </summary>
+        public static void PrintMenu(Restaurant restaurant, List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        {
+            //TODO: console clear cleaning only visible part of console...try to fix it
+
+            Console.Clear();
+            Console.WriteLine(restaurant.Name.ToUpper());
+
+            Console.WriteLine($"\nChef - {restaurant.ChefsName}\n");
+
+            Console.WriteLine("Menu:");
+            Console.WriteLine();
+            int numberOfMeal = 0;
+            foreach (var meal in restaurant.Meals)
             {
-                ConsoleKey.Backspace,
-                ConsoleKey.Escape
-            };
-            var choice = PressButton(keys);
-            switch (choice)
+                //TODO: Remove comments
+                //meal.Key.ShowIngredientsAndPrice();
+
+                numberOfMeal++;
+                Console.Write($"[{numberOfMeal}]  -  ");
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write(meal.Key.Name);
+                Console.ResetColor();
+                Console.Write("  -  ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(meal.Value);
+                Console.ResetColor();
+                Console.WriteLine($" $  -  {meal.Key.MealWeight} grams");
+
+
+            }
+            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+
+            var option = ReturnPressedButton(numberOfMeal);
+            switch (option)
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
@@ -185,6 +220,59 @@ namespace Restaurants_Data_Base.Menu
                     Environment.Exit(0);
                     break;
             }
+
+            string count = option.ToString();
+            int index = Convert.ToInt32(count[count.Length - 1]);
+            index -= 49; //from ASCII to regular int index
+
+            var variant = restaurant.Meals.ElementAt(index);
+            variant.Key.ShowIngredientsAndPrice();          
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{variant.Key.Name}'s sell price - {variant.Value} dollars");
+            Console.ResetColor();
+            Console.WriteLine("-----------------------------------------------\n");
+
+            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+
+            ConsoleKey[] keys = new ConsoleKey[]
+{
+                ConsoleKey.Backspace,
+                ConsoleKey.Escape
+};
+            var choice = PressButton(keys);
+            switch (choice)
+            {
+                case ConsoleKey.Backspace:
+                    Console.Clear();
+                    PrintMenu(restaurant, allRestaurants, allIngredients);
+                    break;
+                case ConsoleKey.Escape:
+                    Environment.Exit(0);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Helps to make pressable as much buttons as you need and return pressed button as ConsoleKey
+        /// </summary>
+        /// <param name="numberOfElements">Number </param>
+        /// <param name="allRestaurants"></param>
+        /// <param name="allIngredients"></param>
+        /// <returns></returns>
+        public static ConsoleKey ReturnPressedButton(int numberOfElements)
+        {
+            List<ConsoleKey> keysList = new();
+            for (int i = 0, j = 97, k = 49; i < numberOfElements; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
+            {
+                keysList.Add((ConsoleKey)j);
+                keysList.Add((ConsoleKey)k);
+            }
+            keysList.Add(ConsoleKey.Backspace);
+            keysList.Add(ConsoleKey.Escape);
+            ConsoleKey[] keys = keysList.ToArray();
+
+            var option = PressButton(keys);
+            return option;
         }
     }
 }

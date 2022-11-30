@@ -22,34 +22,6 @@
             }
         }
 
-        //TODO: change description
-        /// <summary>
-        /// Shows all menu of the restaurant, every ingredient in it, weight, real price and sell price
-        /// </summary>
-        public void PrintMenu()
-        {//TODO: console clear cleaning only visible part of console...try to fix it
-            Console.Clear();
-            Console.WriteLine(Name.ToUpper());
-
-            Console.WriteLine($"\nChef - {ChefsName}\n");
-
-            Console.WriteLine("Menu:");
-            Console.WriteLine();
-            int numberOfMeal = 0;
-            foreach (var meal in Meals)
-            {//TODO: Remove comments
-                //meal.Key.ShowIngredientsAndPrice();
-                //Console.WriteLine($"{meal.Key.Name}'s sell price - {meal.Value} dollars");
-                //Console.WriteLine("-----------------------------------------------\n");
-                numberOfMeal++;
-                Console.WriteLine($"[{numberOfMeal}]  -  {meal.Key.Name}  -  {meal.Value}$");
-            }
-
-
-
-
-        }
-
 
 
 
