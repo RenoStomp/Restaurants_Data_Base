@@ -11,3 +11,6 @@ Onion"2"Vegetable
 Green"1"Vegetable
 Juice"10"Other
 Rice"5"Other
+Shrimps"20"Other
+Salt"1"Spice
+Salad"5"Vegetable

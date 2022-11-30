@@ -334,7 +334,11 @@ namespace Restaurants_Data_Base.Menu
             Console.ReadKey(true);
             ExecuteMenu(restaurants, meals, ingredients);
         }
-
+        /// <summary>
+        /// Adding ingredient
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <returns>Ingredient object</returns>
         public static Ingredient? AddIngredient(ref List<Ingredient> ingredients) 
         {
             List<string> names = new List<string>();
@@ -343,7 +347,6 @@ namespace Restaurants_Data_Base.Menu
                 names.Add(ingredient.Name);
             }
             Console.Clear();
-            Console.CursorVisible = true;
             Console.Write("Input name of your ingredient: ");
             string name = Console.ReadLine();
 
@@ -358,7 +361,6 @@ namespace Restaurants_Data_Base.Menu
                     Console.Write("\nIncorrect input. Try again: ");
                     costInput = Console.ReadLine();
                 }
-                Console.CursorVisible = false;
                 Console.WriteLine("\nChoose type of your ingredient:");
                 Console.WriteLine("[V] - Vegetable\n" +
                     $"[M] - Meat\n" +
@@ -413,45 +415,97 @@ namespace Restaurants_Data_Base.Menu
 
         }
 
+        /// <summary>
+        /// Adding meal
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <param name="meals"></param>
+        /// <returns>Meal object</returns>
         public static Meal AddMeal(ref List<Ingredient> ingredients, ref List<Meal> meals)
         {
             Console.Clear();
-            Console.CursorVisible = true;
+            List<string> names = new List<string>();
+            foreach (Meal meall in meals)
+            {
+                names.Add(meall.Name);
+            }
             Console.Write("Input name of your meal: ");
             string name = Console.ReadLine();
-            Console.Write("How many ingredients will it include? : ");
-            int index;
-            while(!Int32.TryParse(Console.ReadLine(), out index))
-            {
-                Console.Write("\nIncorrect input. Try again: ");
-            }
 
-            List<Meal> mealsList = new List<Meal>();
-            Dictionary<Ingredient, double> mealIngredients = new Dictionary<Ingredient, double>();
-
-            for (int i = 0; i < index; i++)
+            if (!names.Contains(name))
             {
-                Ingredient ingredient = AddIngredient(ref ingredients);
-                Console.Write("\nInput amount of that ingredient: ");
-                int amount;
-                while (!Int32.TryParse(Console.ReadLine(), out amount))
+                Console.Write("How many ingredients will it include? : ");
+                int index;
+                while (!Int32.TryParse(Console.ReadLine(), out index))
                 {
                     Console.Write("\nIncorrect input. Try again: ");
                 }
-                mealIngredients.Add(ingredient, amount);
+
+                List<Meal> mealsList = new List<Meal>();
+                Dictionary<Ingredient, double> mealIngredients = new Dictionary<Ingredient, double>();
+
+                for (int i = 0; i < index; i++)
+                {
+                    Ingredient ingredient = AddIngredient(ref ingredients);
+                    Console.Write("\nInput amount of that ingredient: ");
+                    int amount;
+                    while (!Int32.TryParse(Console.ReadLine(), out amount))
+                    {
+                        Console.Write("\nIncorrect input. Try again: ");
+                    }
+                    mealIngredients.Add(ingredient, amount);
+                }
+                Meal meal = new Meal(name, mealIngredients);
+                meals.Add(meal);
+                mealsList.Add(meal);
+                Console.WriteLine("\n\nMeal created SUCCESSFULLY!\nPress any button to continue");
+                Console.ReadKey(true);
+                return meal;
             }
-            Meal meal = new Meal(name, mealIngredients);
-            meals.Add(meal);
-            mealsList.Add(meal);
-            Console.WriteLine("\n\nMeal created SUCCESSFULLY!\nPress any button to continue");
-            Console.ReadKey(true);
-            Console.CursorVisible = false;
-            return meal;
+            foreach (var meal in meals)
+            {
+                if (meal.Name == name)
+                {
+                    return meal;
+                }
+            }
+            return null;
+
         }
+
         public static void AddRestaurant(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
         {
             Console.Clear();
-
+            List<string> names = new List<string>();
+            foreach(Restaurant restaurant in restaurants)
+            {
+                names.Add(restaurant.Name);
+            }
+            Console.Write("Input name of your restaurant: ");
+            string name = Console.ReadLine();
+            if (names.Contains(name))
+            {
+                Console.WriteLine("Restaurant is already exist!!!\n" +
+                    "Press any button to continue");
+                Console.ReadKey(true);
+                AddSomething(ref ingredients, ref meals, ref restaurants);
+            }
+            Console.Write($"Input name of {name}'s CHEF: ");
+            string chefsName = Console.ReadLine();
+            Console.Write($"Input amount of meals for {name}: ");
+            int amount;
+            while (!Int32.TryParse(Console.ReadLine(), out amount))
+            {
+                Console.Write("\nIncorrect input. Try again: ");
+            }
+            List<Meal> mealsOfReastaurant = new List<Meal>();
+            for(int i = 0; i < amount; i++)
+            {
+                mealsOfReastaurant.Add(AddMeal(ref ingredients, ref meals));
+            }
+            restaurants.Add(new Restaurant(name, chefsName, mealsOfReastaurant));
+            Console.WriteLine("\n\nRestaurant created SUCCESSFULLY!\nPress any button to continue");
+            Console.ReadKey(true);
         }
     }
 }
