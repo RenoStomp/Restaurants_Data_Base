@@ -23,7 +23,9 @@ namespace Restaurants_Data_Base.Menu
                 ConsoleKey.D2,
                 ConsoleKey.Escape,
                 ConsoleKey.NumPad3,
-                ConsoleKey.D3
+                ConsoleKey.D3,
+                ConsoleKey.NumPad4,
+                ConsoleKey.D4,
             };
 
             PrintMainMenu();
@@ -45,6 +47,10 @@ namespace Restaurants_Data_Base.Menu
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     AddSomething(ref ingredients, ref meals, ref restaurants);
+                    break;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
+                    RemoveRestaurant(ref ingredients, ref meals, ref restaurants);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -83,6 +89,7 @@ namespace Restaurants_Data_Base.Menu
             Console.WriteLine("[1]    -  Restaurants");
             Console.WriteLine("[2]    -  The most popular ingredient in all restaurants");
             Console.WriteLine("[3]    -  Add something");
+            Console.WriteLine("[4]    -  Remove restaurant");
 
 
             Console.WriteLine();
@@ -94,7 +101,9 @@ namespace Restaurants_Data_Base.Menu
         /// Shows all ingredients in every meal in every restaurant in one list with total weight
         /// for each ingredient and the most used ingredient
         /// </summary>
-        /// <param name="allIngredients">List of all ingredients</param>
+        /// <param name="restaurants"></param>
+        /// <param name="meals"></param>
+        /// <param name="ingredients"></param>
         public static void ShowIngredients(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             Ingredient mostUsed = new("", 0, Ingredient.Kind.Other);
@@ -134,8 +143,9 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Shows all restaurants with their chefs 
         /// </summary>
-        /// <param name="restaurants">List of all restaurants</param>
-        /// <param name="ingredients">List of all ingredients</param>
+        /// <param name="restaurants"></param>
+        /// <param name="meals"></param>
+        /// <param name="ingredients"></param>
         public static void ShowRestaurants(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             int numberOfRest = 0;
@@ -168,9 +178,9 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Shows all options and returns the line you have choose
         /// </summary>
-        /// <param name="title">Title</param>
-        /// <param name="lines">List of lines</param>
-        /// <param name="index">int parameter for chosen line</param>
+        /// <param name="title"></param>
+        /// <param name="lines"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
         public static ConsoleKeyInfo ShowOptionsAndChoose(string title, List<string> lines, ref int index)
         {
@@ -203,6 +213,10 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Shows all menu of the restaurant
         /// </summary>
+        /// <param name="restaurant"></param>
+        /// <param name="restaurants"></param>
+        /// <param name="meals"></param>
+        /// <param name="ingredients"></param>
         public static void PrintMenuOfRestaurant(Restaurant restaurant, List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             int numberOfMeal = 0;
@@ -285,8 +299,6 @@ namespace Restaurants_Data_Base.Menu
             Console.WriteLine();
             Console.WriteLine("[UP] Up  [Down] Down  [Enter] Choose");
             Console.WriteLine("\n[Backspace] BACK        [Esc] Close app");
-
-
         }
 
         /// <summary>
@@ -473,6 +485,12 @@ namespace Restaurants_Data_Base.Menu
 
         }
 
+        /// <summary>
+        /// Adding restaurant
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <param name="meals"></param>
+        /// <returns>Meal object</returns>
         public static void AddRestaurant(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
         {
             Console.Clear();
@@ -507,5 +525,48 @@ namespace Restaurants_Data_Base.Menu
             Console.WriteLine("\n\nRestaurant created SUCCESSFULLY!\nPress any button to continue");
             Console.ReadKey(true);
         }
+        /// <summary>
+        /// Removing any object from base
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <param name="meals"></param>
+        /// <param name="restaurants"></param>
+        public static void RemoveRestaurant(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
+        {
+            int numberOfRest = 0;
+            List<string> lines = new List<string>();
+            foreach (var rest in restaurants)
+            {
+                numberOfRest++;
+                string line = $"  {rest.Name} - CHEF {rest.ChefsName}";
+                lines.Add(line);
+            }
+            int index = 0;
+            string title = "Choose the restaurant you want to remove:";
+            var keyInfo = ShowOptionsAndChoose(title, lines, index: ref index);
+
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.Backspace:
+                    Console.Clear();
+                    ExecuteMenu(restaurants, meals, ingredients);
+                    break;
+                case ConsoleKey.Escape:
+                    Environment.Exit(0);
+                    break;
+                case ConsoleKey.Enter:
+                    restaurants.RemoveAt(index);
+                    Console.Clear();
+                    Console.WriteLine("\n  RESTAURANT REMOVED SUCCESSFULLY! \n" +
+                        "Press any button to continue");
+                    Console.ReadKey(true);
+
+                    WorkWithFiles.SaveData(ingredients, meals, restaurants);
+
+                    ExecuteMenu(restaurants, meals, ingredients);
+                    break;
+            }
+        }
+
     }
 }
