@@ -30,6 +30,9 @@
             Console.WriteLine($" kilos");
         }
 
+        /// <summary>
+        /// Kind of ingredient
+        /// </summary>
         public enum Type
         {
             Meat,
@@ -39,8 +42,5 @@
             Sauce,
             Unknown
         }
-        //TODO: change child classes to enum and add enum property
-
-
     }
 }
