@@ -2,6 +2,14 @@
 using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Menu;
 using Restaurants_Data_Base.Place;
+using System.Reflection.PortableExecutable;
+
+ReadIngredients();
+Console.WriteLine();
+ReadMeals();
+Console.WriteLine();
+ReadRestaurants();
+Console.ReadKey();
 
 Ingredient banana = new Ingredient(Names.Banana, 10, Ingredient.Kind.Fruit);
 Ingredient apple = new Ingredient(Names.Apple, 12, Ingredient.Kind.Fruit);
@@ -69,10 +77,66 @@ List<Restaurant> allRestaurants = new List<Restaurant>()
 
 Menu.ExecuteMenu(allRestaurants, allIngredients);
 
+
+
+
+
+
+
+
+
+
 List<Ingredient> ReadIngredients()
 {
-
     List<Ingredient> ingredients = new List<Ingredient>();
 
+    using (StreamReader file = new StreamReader(@"..\..\..\Files\Ingredients.txt"))
+    {
+        List<string> lines = new List<string>();
+        string? line;
+        while ((line = file.ReadLine()) != null)
+        {
+            lines.Add(line);
+            Console.WriteLine(line);
+        }
+    }
+
     return ingredients;
+}
+List<Meal> ReadMeals()
+{
+
+    List<Meal> meals = new List<Meal>();
+
+    using (StreamReader file = new StreamReader(@"..\..\..\Files\Meals.txt"))
+    {
+        List<string> lines = new List<string>();
+        string? line;
+        while ((line = file.ReadLine()) != null)
+        {
+            lines.Add(line);
+            Console.WriteLine(line);
+        }
+    }
+
+    return meals;
+
+}
+List<Restaurant> ReadRestaurants()
+{
+
+    List<Restaurant> restaurants = new List<Restaurant>();
+
+    using (StreamReader file = new StreamReader(@"..\..\..\Files\Restaurants.txt"))
+    {
+        List<string> lines = new List<string>();
+        string? line;
+        while ((line = file.ReadLine()) != null)
+        {
+            lines.Add(line);
+            Console.WriteLine(line);
+        }
+    }
+
+    return restaurants;
 }
