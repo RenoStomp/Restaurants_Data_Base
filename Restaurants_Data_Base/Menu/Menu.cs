@@ -173,7 +173,7 @@ namespace Restaurants_Data_Base.Menu
 
 
         }
-        //TODO: change description
+
         /// <summary>
         /// Shows all menu of the restaurant
         /// </summary>
@@ -188,29 +188,73 @@ namespace Restaurants_Data_Base.Menu
 
             Console.WriteLine("Menu:");
             Console.WriteLine();
+
             int numberOfMeal = 0;
+            List<string> lines = new List<string>();
             foreach (var meal in restaurant.Meals)
             {
-                //TODO: Remove comments
-                //meal.Key.ShowIngredientsAndPrice();
-
                 numberOfMeal++;
-                Console.Write($"[{numberOfMeal}]  -  ");
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.Write(meal.Key.Name);
-                Console.ResetColor();
-                Console.Write("  -  ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(meal.Value);
-                Console.ResetColor();
-                Console.WriteLine($" $  -  {meal.Key.MealWeight} grams");
-
-
+                string line = $"  {meal.Key.Name}  -  {meal.Value} $  -  {meal.Key.MealWeight} grams";
+                lines.Add(line);
+                
+                
+                //Console.WriteLine(line);
             }
-            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+            //TODO: method for showing menu
+            int index = 0;
+            string title = $"\n{restaurant.Name}'s Menu:";
+            ShowOptions(title, lines, index);
+            ConsoleKeyInfo keyInfo;
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        if (index + 1 < lines.Count)
+                        {
+                            index++;
+                        }
+                        ShowOptions(title, lines, index);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (index - 1 >= 0)
+                        {
+                            index--;
+                        }
+                        ShowOptions(title, lines, index);
+                        break;
+                    case ConsoleKey.Enter:
+                        var choosenMeal = restaurant.Meals.ElementAt(index);
+                        choosenMeal.Key.ShowIngredientsAndPrice();
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"{choosenMeal.Key.Name}'s sell price - {choosenMeal.Value} dollars");
+                        Console.ResetColor();
+                        Console.WriteLine("-----------------------------------------------\n");
 
-            var option = ReturnPressedButton(numberOfMeal);
-            switch (option)
+                        Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+
+                        ConsoleKey[] keys = new ConsoleKey[]
+                        {
+                        ConsoleKey.Backspace,
+                        ConsoleKey.Escape
+                        };
+                        var choice = PressButton(keys);
+                        switch (choice)
+                        {
+                            case ConsoleKey.Backspace:
+                                Console.Clear();
+                                PrintMenu(restaurant, allRestaurants, allIngredients);
+                                break;
+                            case ConsoleKey.Escape:
+                                Environment.Exit(0);
+                                break;
+                        }
+                        break;
+                }
+            } while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Backspace);
+
+            switch (keyInfo.Key)
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
@@ -220,36 +264,28 @@ namespace Restaurants_Data_Base.Menu
                     Environment.Exit(0);
                     break;
             }
+            //TODO: rework choosing way
+            #region Change that block
 
-            string count = option.ToString();
-            int index = Convert.ToInt32(count[count.Length - 1]);
-            index -= 49; //from ASCII to regular int index
+            //var option = ReturnPressedButton(numberOfMeal);
+            //switch (option)
+            //{
+            //    case ConsoleKey.Backspace:
+            //        Console.Clear();
+            //        ShowRestaurants(allRestaurants, allIngredients);
+            //        break;
+            //    case ConsoleKey.Escape:
+            //        Environment.Exit(0);
+            //        break;
+            //}
 
-            var variant = restaurant.Meals.ElementAt(index);
-            variant.Key.ShowIngredientsAndPrice();          
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"{variant.Key.Name}'s sell price - {variant.Value} dollars");
-            Console.ResetColor();
-            Console.WriteLine("-----------------------------------------------\n");
+            //string count = option.ToString();
+            //int index = Convert.ToInt32(count[count.Length - 1]);
+            //index -= 49; //from ASCII to regular int index
 
-            Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
+            #endregion
 
-            ConsoleKey[] keys = new ConsoleKey[]
-{
-                ConsoleKey.Backspace,
-                ConsoleKey.Escape
-};
-            var choice = PressButton(keys);
-            switch (choice)
-            {
-                case ConsoleKey.Backspace:
-                    Console.Clear();
-                    PrintMenu(restaurant, allRestaurants, allIngredients);
-                    break;
-                case ConsoleKey.Escape:
-                    Environment.Exit(0);
-                    break;
-            }
+
         }
 
         /// <summary>
@@ -273,6 +309,32 @@ namespace Restaurants_Data_Base.Menu
 
             var option = PressButton(keys);
             return option;
+        }
+
+        public static void ShowOptions(string title, List<string> lines, int index)
+        {
+            Console.Clear();
+            Console.WriteLine($"{title}\n");
+            for(int i = 0; i < lines.Count; i++)
+            {
+                if (index.Equals(i))
+                {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.Write(" >> ");
+                }
+                else
+                {
+                    Console.Write(" ");
+                }
+                Console.WriteLine(lines[i]);
+                Console.ResetColor();
+            }
+            Console.WriteLine();
+            Console.WriteLine("[UP] Up  [Down] Down  [Enter] Choose");
+            Console.WriteLine("\n[Backspace] BACK        [Esc] Close app");
+
+
         }
     }
 }
