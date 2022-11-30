@@ -3,14 +3,14 @@ using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Menu;
 using Restaurants_Data_Base.Place;
 
-Ingredient banana = new Ingredient(Names.Banana, 10, Ingredient.Type.Fruit);
-Ingredient apple = new Ingredient(Names.Apple, 12, Ingredient.Type.Fruit);
-Ingredient grape = new Ingredient(Names.Grape, 11, Ingredient.Type.Fruit);
+Ingredient banana = new Ingredient(Names.Banana, 10, Ingredient.Kind.Fruit);
+Ingredient apple = new Ingredient(Names.Apple, 12, Ingredient.Kind.Fruit);
+Ingredient grape = new Ingredient(Names.Grape, 11, Ingredient.Kind.Fruit);
 
-Ingredient cowMeat = new Ingredient(Names.Beef, 50, Ingredient.Type.Meat);
-Ingredient chikenMeat = new Ingredient(Names.Poultry, 40, Ingredient.Type.Meat);
-Ingredient fishMeat = new Ingredient(Names.Fish_Meat, 70, Ingredient.Type.Meat);
-Ingredient pigMeat = new Ingredient(Names.Pork, 60, Ingredient.Type.Meat);
+Ingredient cowMeat = new Ingredient(Names.Beef, 50, Ingredient.Kind.Meat);
+Ingredient chikenMeat = new Ingredient(Names.Poultry, 40, Ingredient.Kind.Meat);
+Ingredient fishMeat = new Ingredient(Names.Fish_Meat, 70, Ingredient.Kind.Meat);
+Ingredient pigMeat = new Ingredient(Names.Pork, 60, Ingredient.Kind.Meat);
 
 List<Ingredient> allIngredients = new List<Ingredient>
 {
@@ -68,3 +68,11 @@ List<Restaurant> allRestaurants = new List<Restaurant>()
 };
 
 Menu.ExecuteMenu(allRestaurants, allIngredients);
+
+List<Ingredient> ReadIngredients()
+{
+
+    List<Ingredient> ingredients = new List<Ingredient>();
+
+    return ingredients;
+}

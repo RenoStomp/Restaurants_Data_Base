@@ -18,6 +18,8 @@ namespace Restaurants_Data_Base.Menu
                 ConsoleKey.NumPad2,
                 ConsoleKey.D2,
                 ConsoleKey.Escape,
+                ConsoleKey.NumPad3,
+                ConsoleKey.D3,
 
             };
 
@@ -36,6 +38,9 @@ namespace Restaurants_Data_Base.Menu
                 case ConsoleKey.NumPad2:
                     Console.Clear();
                     ShowIngredients(allRestaurants, allIngredients);
+                    break;
+                case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -85,7 +90,7 @@ namespace Restaurants_Data_Base.Menu
         /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowIngredients(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
-            Ingredient mostUsed = new("", 0, Ingredient.Type.Unknown);
+            Ingredient mostUsed = new("", 0, Ingredient.Kind.Unknown);
 
             foreach (Ingredient ingredient in allIngredients)
             {

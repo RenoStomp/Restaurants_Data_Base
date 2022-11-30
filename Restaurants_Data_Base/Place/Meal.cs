@@ -43,7 +43,7 @@
             Console.ForegroundColor = ConsoleColor.DarkGray;
             foreach (var ingredient in Ingredients)
             {
-                double cost = ingredient.Key.CostPerGram * 0.01;
+                double cost = ingredient.Key.CostPerGram * ingredient.Value * 0.01;
                 Console.WriteLine($"{ingredient.Key.Name} - {ingredient.Value} grams - {cost} dollars");
             }
             Console.ResetColor();

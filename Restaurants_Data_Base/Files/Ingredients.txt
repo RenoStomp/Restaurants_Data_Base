@@ -1,0 +1,7 @@
+Banana"10"Fruit
+Apple"12"Fruit
+Grape"11"Fruit
+Beef"50"Meat
+Poultry"40"Meat
+Fish Meat"70"Meat
+Pork"60"Meat

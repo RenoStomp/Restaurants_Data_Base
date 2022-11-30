@@ -5,14 +5,15 @@
         public string Name { get; set; }
         public double CostPerGram { get; set; }
         public double TotalUsing { get; set; } = 0;
-        public Type Kind { get; set; }
+        public Kind TypeOfIngredient { get; set; }
 
-        public Ingredient(string name, double costPerGram, Type kind)
+        public Ingredient(string name, double costPerGram, Kind typeOfIngredient)
         {
             Name = name;
             CostPerGram = costPerGram;
-            Kind = kind;
+            TypeOfIngredient = typeOfIngredient;
         }
+
         /// <summary>
         /// Presenting total sum of that ingredient in all meals in all restaurants for each meal
         /// </summary>
@@ -33,7 +34,7 @@
         /// <summary>
         /// Kind of ingredient
         /// </summary>
-        public enum Type
+        public enum Kind
         {
             Meat,
             Vegetable,
