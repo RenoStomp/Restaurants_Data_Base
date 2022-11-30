@@ -78,6 +78,8 @@ namespace Restaurants_Data_Base.Menu
             Console.SetCursorPosition(0, 5);
             Console.WriteLine("[1]    -  Restaurants");
             Console.WriteLine("[2]    -  The most popular ingredient in all restaurants");
+            Console.WriteLine("[3]    -  EMPTY");
+
             Console.WriteLine();
             Console.WriteLine("[Esc]  -  Close app");
 
