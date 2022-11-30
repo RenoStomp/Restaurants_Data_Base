@@ -10,6 +10,7 @@ namespace Restaurants_Data_Base.Menu
         /// </summary>
         public static void ExecuteMenu(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
+            Console.Clear();
             Console.CursorVisible = false;
             ConsoleKey[] mainMenuKeys = new ConsoleKey[]
             {
