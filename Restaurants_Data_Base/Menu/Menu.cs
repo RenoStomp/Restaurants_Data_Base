@@ -1,8 +1,6 @@
 ﻿using Restaurants_Data_Base.Files;
 using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -351,10 +349,10 @@ namespace Restaurants_Data_Base.Menu
         /// </summary>
         /// <param name="ingredients"></param>
         /// <returns>Ingredient object</returns>
-        public static Ingredient? AddIngredient(ref List<Ingredient> ingredients) 
+        public static Ingredient? AddIngredient(ref List<Ingredient> ingredients)
         {
             List<string> names = new List<string>();
-            foreach(Ingredient ingredient in ingredients)
+            foreach (Ingredient ingredient in ingredients)
             {
                 names.Add(ingredient.Name);
             }
@@ -416,9 +414,9 @@ namespace Restaurants_Data_Base.Menu
                 }
                 return nin;
             }
-            foreach(var ingredient in ingredients)
+            foreach (var ingredient in ingredients)
             {
-                if(ingredient.Name == name)
+                if (ingredient.Name == name)
                 {
                     return ingredient;
                 }
@@ -495,7 +493,7 @@ namespace Restaurants_Data_Base.Menu
         {
             Console.Clear();
             List<string> names = new List<string>();
-            foreach(Restaurant restaurant in restaurants)
+            foreach (Restaurant restaurant in restaurants)
             {
                 names.Add(restaurant.Name);
             }
@@ -517,7 +515,7 @@ namespace Restaurants_Data_Base.Menu
                 Console.Write("\nIncorrect input. Try again: ");
             }
             List<Meal> mealsOfReastaurant = new List<Meal>();
-            for(int i = 0; i < amount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 mealsOfReastaurant.Add(AddMeal(ref ingredients, ref meals));
             }

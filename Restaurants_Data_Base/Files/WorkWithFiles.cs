@@ -1,7 +1,5 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using static Restaurants_Data_Base.Ingredients.Ingredient;
 
 namespace Restaurants_Data_Base.Files
@@ -25,7 +23,7 @@ namespace Restaurants_Data_Base.Files
                     lines.Add(line);
                 }
 
-                foreach(string position in lines)
+                foreach (string position in lines)
                 {
                     string[] strings = position.Split('"');
                     string name = strings[0];
@@ -57,10 +55,10 @@ namespace Restaurants_Data_Base.Files
                 }
                 foreach (string position in lines)
                 {
-                    Dictionary<Ingredient, double> compound = new Dictionary<Ingredient, double>(); 
+                    Dictionary<Ingredient, double> compound = new Dictionary<Ingredient, double>();
                     string[] strings = position.Split('"');
                     string name = strings[0];
-                    for(int i = 0, j = 1; j < strings.Length; j++)
+                    for (int i = 0, j = 1; j < strings.Length; j++)
                     {
                         string[] stringsCompound = strings[j].Split('\'');
                         double.TryParse(stringsCompound[1], out double amount);
@@ -105,9 +103,9 @@ namespace Restaurants_Data_Base.Files
                     string chefsName = strings[1];
                     List<Meal> mealsInRestaurant = new List<Meal>();
 
-                    for(int i = 2; i < strings.Length; i++)
+                    for (int i = 2; i < strings.Length; i++)
                     {
-                        foreach(Meal meal in meals)
+                        foreach (Meal meal in meals)
                         {
                             if (strings[i].Equals(meal.Name))
                             {
@@ -139,12 +137,12 @@ namespace Restaurants_Data_Base.Files
         {
             using (StreamWriter file = new StreamWriter(@"..\..\..\Files\Ingredients.txt", false))
             {
-                foreach(Ingredient ingredient in ingredients)
+                foreach (Ingredient ingredient in ingredients)
                 {
-                    string[] line = new string[] 
-                    { 
-                        ingredient.Name, 
-                        ingredient.CostPerGram.ToString(), 
+                    string[] line = new string[]
+                    {
+                        ingredient.Name,
+                        ingredient.CostPerGram.ToString(),
                         ingredient.TypeOfIngredient.ToString()
                     };
                     string readyLine = string.Join('\"', line);
@@ -168,7 +166,7 @@ namespace Restaurants_Data_Base.Files
                     {
                         string lll = "";
                         List<string> almostLine = new List<string>();
-                        
+
                         foreach (KeyValuePair<Ingredient, double> ingreientAndWeight in meal.Ingredients)
                         {
                             string[] ingredient = new string[]
@@ -179,7 +177,7 @@ namespace Restaurants_Data_Base.Files
                             lll = string.Join('\'', ingredient);
                             almostLine.Add(lll);
                         }
-                        lll = string.Join("\"",almostLine);
+                        lll = string.Join("\"", almostLine);
                         string[] line = new string[]
                         {
                         meal.Name,
@@ -204,7 +202,7 @@ namespace Restaurants_Data_Base.Files
                 foreach (Restaurant restaurant in restaurants)
                 {
                     List<string> mealsNames = new List<string>();
-                    foreach(Meal Meals in restaurant.Meals.Keys)
+                    foreach (Meal Meals in restaurant.Meals.Keys)
                     {
                         mealsNames.Add(Meals.Name);
                     }
