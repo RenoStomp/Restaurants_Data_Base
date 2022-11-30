@@ -1,10 +1,12 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using static Restaurants_Data_Base.Ingredients.Ingredient;
 
 namespace Restaurants_Data_Base.Files
 {
-    public class FileReader
+    public class WorkWithFiles
     {
         /// <summary>
         /// Returns List of ingredients from .txt file
@@ -122,5 +124,101 @@ namespace Restaurants_Data_Base.Files
         }
 
 
+
+        public static void SaveData(List<Ingredient> ingredients, List<Meal> meals, List<Restaurant> restaurants)
+        {
+            SaveRestaurants(restaurants);
+            SaveMeals(meals);
+            SaveIngredients(ingredients);
+        }
+        /// <summary>
+        /// Saving all ingredients in saving file
+        /// </summary>
+        /// <param name="ingredients"></param>
+        public static void SaveIngredients(List<Ingredient> ingredients)
+        {
+            using (StreamWriter file = new StreamWriter(@"..\..\..\Files\Ingredients.txt", false))
+            {
+                foreach(Ingredient ingredient in ingredients)
+                {
+                    string[] line = new string[] 
+                    { 
+                        ingredient.Name, 
+                        ingredient.CostPerGram.ToString(), 
+                        ingredient.TypeOfIngredient.ToString()
+                    };
+                    string readyLine = string.Join('\"', line);
+                    file.WriteLine(readyLine);
+                }
+            }
+        }
+
+        /// <summary>
+        ///Saving all meals in file
+        /// </summary>
+        /// <param name="meals"></param>
+        public static void SaveMeals(List<Meal> meals)
+        {
+            using (StreamWriter file = new StreamWriter(@"..\..\..\Files\Meals.txt", false))
+            {
+                foreach (Meal meal in meals)
+                {
+                    string readyLine = "";
+                    for (int i = 0; i < meal.Ingredients.Count; i++)
+                    {
+                        string lll = "";
+                        List<string> almostLine = new List<string>();
+                        
+                        foreach (KeyValuePair<Ingredient, double> ingreientAndWeight in meal.Ingredients)
+                        {
+                            string[] ingredient = new string[]
+                            {
+                            ingreientAndWeight.Key.Name,
+                            ingreientAndWeight.Value.ToString()
+                            };
+                            lll = string.Join('\'', ingredient);
+                            almostLine.Add(lll);
+                        }
+                        lll = string.Join("\"",almostLine);
+                        string[] line = new string[]
+                        {
+                        meal.Name,
+                        lll
+                        };
+                        readyLine = string.Join('\"', line);
+                    }
+                    file.WriteLine(readyLine);
+                }
+            }
+
+        }
+
+        /// <summary>
+        ///Saving all restaurants in file
+        /// </summary>
+        /// <param name="meals"></param>
+        public static void SaveRestaurants(List<Restaurant> restaurants)
+        {
+            using (StreamWriter file = new StreamWriter(@"..\..\..\Files\Restaurants.txt", false))
+            {
+                foreach (Restaurant restaurant in restaurants)
+                {
+                    List<string> mealsNames = new List<string>();
+                    foreach(Meal Meals in restaurant.Meals.Keys)
+                    {
+                        mealsNames.Add(Meals.Name);
+                    }
+                    string almostLine = string.Join("\"", mealsNames);
+                    string[] line = new string[]
+                    {
+                        restaurant.Name,
+                        restaurant.ChefsName,
+                        almostLine
+                    };
+                    string readyLine = string.Join('\"', line);
+                    file.WriteLine(readyLine);
+                }
+            }
+        }
     }
 }
