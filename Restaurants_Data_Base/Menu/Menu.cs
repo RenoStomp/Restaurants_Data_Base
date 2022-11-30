@@ -1,9 +1,5 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -55,7 +51,6 @@ namespace Restaurants_Data_Base.Menu
         /// <returns>ConsoleKey that is allowed</returns>
         public static ConsoleKey PressButton(ConsoleKey[] keys)
         {
-
             ConsoleKeyInfo key = Console.ReadKey(true);
             while (!keys.Contains(key.Key))
             {
@@ -123,7 +118,7 @@ namespace Restaurants_Data_Base.Menu
             Console.Clear();
             ExecuteMenu(allRestaurants, allIngredients);
         }
-        
+
         /// <summary>
         /// Shows all restaurants with their chefs 
         /// </summary>
@@ -156,38 +151,6 @@ namespace Restaurants_Data_Base.Menu
                     PrintMenuOfRestaurant(allRestaurants[index], allRestaurants, allIngredients);
                     break;
             }
-
-
-            #region DELETE
-
-            // here I have added ASCII numbers of keys so I can add as many keys as I need
-            // max amount of restaurants is 9
-            //TODO: make a limit of 9 restaurants (9 keys on keyboard)
-
-            //var option = ReturnPressedButton(numberOfRest);
-            //switch (option)
-            //{
-            //    case ConsoleKey.Backspace:
-            //        Console.Clear();
-            //        ExecuteMenu(allRestaurants, allIngredients);
-            //        break;
-            //    case ConsoleKey.Escape:
-            //        Environment.Exit(0);
-            //        break;
-            //}
-
-            //string count = option.ToString();
-            //int index = Convert.ToInt32(count[count.Length - 1]);
-            //index -= 49;      //from ASCII to regular int index
-
-            // даже не буду пытаться написать на англ...
-            // задолбался с этими внутренними значениями клавиш...
-            // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
-            #endregion
-
-
-
-
         }
 
         /// <summary>
@@ -224,6 +187,7 @@ namespace Restaurants_Data_Base.Menu
             } while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter);
             return keyInfo;
         }
+
         /// <summary>
         /// Shows all menu of the restaurant
         /// </summary>
@@ -281,29 +245,6 @@ namespace Restaurants_Data_Base.Menu
             }
         }
 
-        ///// <summary>
-        ///// Helps to make pressable as much buttons as you need and return pressed button as ConsoleKey
-        ///// </summary>
-        ///// <param name="numberOfElements">Number </param>
-        ///// <param name="allRestaurants"></param>
-        ///// <param name="allIngredients"></param>
-        ///// <returns></returns>
-        //public static ConsoleKey ReturnPressedButton(int numberOfElements)
-        //{
-        //    List<ConsoleKey> keysList = new();
-        //    for (int i = 0, j = 97, k = 49; i < numberOfElements; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
-        //    {
-        //        keysList.Add((ConsoleKey)j);
-        //        keysList.Add((ConsoleKey)k);
-        //    }
-        //    keysList.Add(ConsoleKey.Backspace);
-        //    keysList.Add(ConsoleKey.Escape);
-        //    ConsoleKey[] keys = keysList.ToArray();
-
-        //    var option = PressButton(keys);
-        //    return option;
-        //}
-
         /// <summary>
         /// Shows menu of options with title
         /// </summary>
@@ -314,7 +255,7 @@ namespace Restaurants_Data_Base.Menu
         {
             Console.Clear();
             Console.WriteLine($"{title}\n");
-            for(int i = 0; i < lines.Count; i++)
+            for (int i = 0; i < lines.Count; i++)
             {
                 if (index.Equals(i))
                 {
