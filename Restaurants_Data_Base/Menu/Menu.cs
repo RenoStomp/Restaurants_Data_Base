@@ -1,5 +1,6 @@
 ﻿using Restaurants_Data_Base.Ingredients;
 using Restaurants_Data_Base.Place;
+using System.Collections.Generic;
 
 namespace Restaurants_Data_Base.Menu
 {
@@ -8,7 +9,7 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Start an app
         /// </summary>
-        public static void ExecuteMenu(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        public static void ExecuteMenu(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             Console.Clear();
             Console.CursorVisible = false;
@@ -20,10 +21,7 @@ namespace Restaurants_Data_Base.Menu
                 ConsoleKey.D2,
                 ConsoleKey.Escape,
                 ConsoleKey.NumPad3,
-                ConsoleKey.D3,
-                ConsoleKey.NumPad4,
-                ConsoleKey.D4,
-
+                ConsoleKey.D3
             };
 
             PrintMainMenu();
@@ -34,19 +32,17 @@ namespace Restaurants_Data_Base.Menu
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    ShowRestaurants(allRestaurants, allIngredients);
+                    ShowRestaurants(restaurants, meals, ingredients);
                     break;
 
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
                     Console.Clear();
-                    ShowIngredients(allRestaurants, allIngredients);
+                    ShowIngredients(restaurants, meals, ingredients);
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
-                    break;
-                case ConsoleKey.D4:
-                case ConsoleKey.NumPad4:
+                    AddSomething(ref ingredients, ref meals, ref restaurants);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -84,8 +80,7 @@ namespace Restaurants_Data_Base.Menu
             Console.SetCursorPosition(0, 5);
             Console.WriteLine("[1]    -  Restaurants");
             Console.WriteLine("[2]    -  The most popular ingredient in all restaurants");
-            Console.WriteLine("[3]    -  EMPTY");
-            Console.WriteLine("[4]    -  EMPTY");
+            Console.WriteLine("[3]    -  Add something");
 
 
             Console.WriteLine();
@@ -98,11 +93,11 @@ namespace Restaurants_Data_Base.Menu
         /// for each ingredient and the most used ingredient
         /// </summary>
         /// <param name="allIngredients">List of all ingredients</param>
-        public static void ShowIngredients(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        public static void ShowIngredients(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             Ingredient mostUsed = new("", 0, Ingredient.Kind.Unknown);
 
-            foreach (Ingredient ingredient in allIngredients)
+            foreach (Ingredient ingredient in ingredients)
             {
                 ingredient.ShowTotalUsed();
                 if (mostUsed.TotalUsing > ingredient.TotalUsing)
@@ -131,19 +126,19 @@ namespace Restaurants_Data_Base.Menu
             if (back.Key == ConsoleKey.Escape)
                 Environment.Exit(0);
             Console.Clear();
-            ExecuteMenu(allRestaurants, allIngredients);
+            ExecuteMenu(restaurants, meals, ingredients);
         }
 
         /// <summary>
         /// Shows all restaurants with their chefs 
         /// </summary>
-        /// <param name="allRestaurants">List of all restaurants</param>
-        /// <param name="allIngredients">List of all ingredients</param>
-        public static void ShowRestaurants(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        /// <param name="restaurants">List of all restaurants</param>
+        /// <param name="ingredients">List of all ingredients</param>
+        public static void ShowRestaurants(List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             int numberOfRest = 0;
             List<string> lines = new List<string>();
-            foreach (var rest in allRestaurants)
+            foreach (var rest in restaurants)
             {
                 numberOfRest++;
                 string line = $"  {rest.Name} - CHEF {rest.ChefsName}";
@@ -157,13 +152,13 @@ namespace Restaurants_Data_Base.Menu
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
-                    ExecuteMenu(allRestaurants, allIngredients);
+                    ExecuteMenu(restaurants, meals, ingredients);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
                     break;
                 case ConsoleKey.Enter:
-                    PrintMenuOfRestaurant(allRestaurants[index], allRestaurants, allIngredients);
+                    PrintMenuOfRestaurant(restaurants[index], restaurants, meals, ingredients);
                     break;
             }
         }
@@ -206,7 +201,7 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Shows all menu of the restaurant
         /// </summary>
-        public static void PrintMenuOfRestaurant(Restaurant restaurant, List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
+        public static void PrintMenuOfRestaurant(Restaurant restaurant, List<Restaurant> restaurants, List<Meal> meals, List<Ingredient> ingredients)
         {
             int numberOfMeal = 0;
             List<string> lines = new List<string>();
@@ -225,7 +220,7 @@ namespace Restaurants_Data_Base.Menu
             {
                 case ConsoleKey.Backspace:
                     Console.Clear();
-                    ShowRestaurants(allRestaurants, allIngredients);
+                    ShowRestaurants(restaurants, meals, ingredients);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -250,7 +245,7 @@ namespace Restaurants_Data_Base.Menu
                     {
                         case ConsoleKey.Backspace:
                             Console.Clear();
-                            PrintMenuOfRestaurant(restaurant, allRestaurants, allIngredients);
+                            PrintMenuOfRestaurant(restaurant, restaurants, meals, ingredients);
                             break;
                         case ConsoleKey.Escape:
                             Environment.Exit(0);
@@ -289,6 +284,60 @@ namespace Restaurants_Data_Base.Menu
             Console.WriteLine("[UP] Up  [Down] Down  [Enter] Choose");
             Console.WriteLine("\n[Backspace] BACK        [Esc] Close app");
 
+
+        }
+
+        /// <summary>
+        /// Adding any element you need
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <param name="meals"></param>
+        /// <param name="restaurants"></param>
+        public static void AddSomething(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
+        {
+            Console.Clear();
+            Console.WriteLine("\nChoose what you want to add:\n");
+            Console.WriteLine("[R]  -  Restaurant\n" +
+                "[M]  -  Meal\n" +
+                "[I]  -  Ingredient");
+            Console.WriteLine("\n[Backspace] BACK        [Esc] Close app");
+
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+            } while (key.Key != ConsoleKey.R && key.Key != ConsoleKey.M && key.Key != ConsoleKey.I && key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Escape);
+            switch (key.Key)
+            {
+                case ConsoleKey.Backspace:
+                    ExecuteMenu(restaurants, meals, ingredients);
+                    break;
+                case ConsoleKey.Escape:
+                    Environment.Exit(0);
+                    break;
+                case ConsoleKey.I:
+                    AddIngredient(ref ingredients, ref meals, ref restaurants);
+                    break;
+                case ConsoleKey.M:
+                    AddMeal(ref ingredients, ref meals, ref restaurants);
+                    break;
+                case ConsoleKey.R:
+                    AddRestaurant(ref ingredients, ref meals, ref restaurants);
+                    break;
+
+            }
+        }
+
+        public static void AddIngredient(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants) 
+        { 
+
+        }
+        public static void AddMeal(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
+        {
+
+        }
+        public static void AddRestaurant(ref List<Ingredient> ingredients, ref List<Meal> meals, ref List<Restaurant> restaurants)
+        {
 
         }
     }

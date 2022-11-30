@@ -18,7 +18,7 @@ List<Restaurant> restaurants = WorkWithFiles.ReadRestaurants(meals);
 //meals.Add(new Meal("Huinya", sostav));
 //restaurants.Add(new Restaurant("Zalupen", "Hueglot", meals));
 
-Menu.ExecuteMenu(restaurants, ingredients);
+Menu.ExecuteMenu(restaurants, meals, ingredients);
 
 
 WorkWithFiles.SaveData(ingredients, meals, restaurants);
