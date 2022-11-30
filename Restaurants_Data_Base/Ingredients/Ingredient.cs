@@ -7,10 +7,11 @@
         public double TotalUsing { get; set; } = 0;
         public Type Kind { get; set; }
 
-        public Ingredient(string name, double costPerGram)
+        public Ingredient(string name, double costPerGram, Type kind)
         {
             Name = name;
             CostPerGram = costPerGram;
+            Kind = kind;
         }
         /// <summary>
         /// Presenting total sum of that ingredient in all meals in all restaurants for each meal
@@ -36,7 +37,7 @@
             Spice,
             Fruit,
             Sauce,
-
+            Unknown
         }
         //TODO: change child classes to enum and add enum property
 

@@ -3,14 +3,14 @@ using Restaurants_Data_Base;
 using Restaurants_Data_Base.Menu;
 using Restaurants_Data_Base.Place;
 
-Fruit banana = new Fruit(Names.Banana, 10);
-Fruit apple = new Fruit(Names.Apple, 12);
-Fruit grape = new Fruit(Names.Grape, 11);
+Ingredient banana = new Ingredient(Names.Banana, 10, Ingredient.Type.Fruit);
+Ingredient apple = new Ingredient(Names.Apple, 12, Ingredient.Type.Fruit);
+Ingredient grape = new Ingredient(Names.Grape, 11, Ingredient.Type.Fruit);
 
-Meat cowMeat = new Meat(Names.Beef, 50);
-Meat chikenMeat = new Meat(Names.Poultry, 40);
-Meat fishMeat = new Meat(Names.Fish_Meat, 70);
-Meat pigMeat = new Meat(Names.Pork, 60);
+Ingredient cowMeat = new Ingredient(Names.Beef, 50, Ingredient.Type.Meat);
+Ingredient chikenMeat = new Ingredient(Names.Poultry, 40, Ingredient.Type.Meat);
+Ingredient fishMeat = new Ingredient(Names.Fish_Meat, 70, Ingredient.Type.Meat);
+Ingredient pigMeat = new Ingredient(Names.Pork, 60, Ingredient.Type.Meat);
 
 List<Ingredient> allIngredients = new List<Ingredient>
 {

@@ -86,7 +86,7 @@ namespace Restaurants_Data_Base.Menu
         /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowIngredients(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
-            Ingredient mostUsed = new("", 0);
+            Ingredient mostUsed = new("", 0, Ingredient.Type.Unknown);
 
             foreach (Ingredient ingredient in allIngredients)
             {
@@ -123,8 +123,8 @@ namespace Restaurants_Data_Base.Menu
         /// <summary>
         /// Shows all restaurants with their chefs 
         /// </summary>
-        /// <param name="allRestaurants">List of restaurants</param>
-        /// <param name="allIngredients">List of ingredients</param>
+        /// <param name="allRestaurants">List of all restaurants</param>
+        /// <param name="allIngredients">List of all ingredients</param>
         public static void ShowRestaurants(List<Restaurant> allRestaurants, List<Ingredient> allIngredients)
         {
             Console.WriteLine();
@@ -134,14 +134,14 @@ namespace Restaurants_Data_Base.Menu
                 numberOfRest++;
                 Console.WriteLine($"[{numberOfRest}]  -  {rest.Name}  -  CHEF {rest.ChefsName}");
             }
-            Console.ResetColor();
+            //Console.ResetColor();
             Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
 
             List<ConsoleKey> restaurantKeysList = new();
 
             // here I have added ASCII numbers of keys so I can add as many keys as I need
             // max amount of restaurants is 9
-            //TODO: make a limit of 9 restaurants
+            //TODO: make a limit of 9 restaurants (9 keys on keyboard)
             for (int i = 0, j = 97, k = 49; i < numberOfRest; i++, j++, k++)  // j = 97 - NumPad1 , k = 49 - D1  ASCII
             {
                 restaurantKeysList.Add((ConsoleKey)j);
@@ -167,8 +167,7 @@ namespace Restaurants_Data_Base.Menu
             int count = Convert.ToInt32(test[test.Length - 1]);    // даже не буду пытаться написать на англ...
             count -= 49;                                       // задолбался с этими внутренними значениями клавиш...
                                                                // а всё только ради того, что бы можно было на кнопашки тыкац сколько влезет...
-            Console.Clear();
-            allRestaurants[count].PrintInfo();
+            allRestaurants[count].PrintMenu();
             Console.WriteLine("\n\n[Backspace] BACK        [Esc] Close app");
             ConsoleKey[] keys = new ConsoleKey[]
             {
